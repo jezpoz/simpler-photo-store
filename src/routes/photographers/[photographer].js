@@ -23,6 +23,26 @@ export async function get({ params }) {
             }
           }
         }
+        profileImage: component(id: "picture") {
+          ... on Component {
+            content {
+              ... on ImageContent {
+                images {
+                  altText
+                  caption {
+                    html
+                  }
+                  variants {
+                    height
+                    width
+                    size
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   `;
@@ -109,6 +129,7 @@ export async function get({ params }) {
   const profile = {
     name: profileData.catalogue.name.content.text,
     summary: profileData.catalogue.summary.content.html,
+    profilePictures: profileData.catalogue.profileImage.content?.images || [],
   }
 
   return {

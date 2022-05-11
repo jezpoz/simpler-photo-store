@@ -104,7 +104,7 @@ export async function get({ params }) {
   const photograph = {
     name: photoData.catalogue.name.content.text,
     summary: photoData.catalogue.summary.content.html,
-    image: photoData.catalogue.image.content.firstImage,
+    image: photoData.catalogue.image.content?.firstImage,
   }
 
   return {

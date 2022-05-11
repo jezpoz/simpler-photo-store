@@ -23,6 +23,86 @@ export async function get({ params }) {
             }
           }
         }
+        photographs: component(id: "photographs") {
+          ... on Component {
+            content {
+              ... on ItemRelationsContent {
+                items {
+                  path
+                  name: component(id: "name") {
+                    ... on Component {
+                      content {
+                        ... on SingleLineContent {
+                          text
+                        }
+                      }
+                    }
+                  }
+                  photograph: component(id: "picture") {
+                    ... on Component {
+                      content {
+                        ... on ImageContent {
+                          firstImage {
+                            altText
+                            caption {
+                              html
+                            }
+                            variants {
+                              height
+                              width
+                              size
+                              url
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        photographers: component(id: "photographer") {
+          ... on Component {
+            content {
+              ... on ItemRelationsContent {
+                items {
+                  path
+                  name: component(id: "name") {
+                    ... on Component {
+                      content {
+                        ... on SingleLineContent {
+                          text
+                        }
+                      }
+                    }
+                  }
+                  photograph: component(id: "picture") {
+                    ... on Component {
+                      content {
+                        ... on ImageContent {
+                          firstImage {
+                            altText
+                            caption {
+                              html
+                            }
+                            variants {
+                              height
+                              width
+                              size
+                              url
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   `;
@@ -44,6 +124,16 @@ export async function get({ params }) {
   const album = {
     name: albumData.catalogue.name.content.text,
     summary: albumData.catalogue.summary.content.html,
+    photographs: albumData.catalogue.photographs.content.items.map((item) => ({
+      name: item.name.content.text,
+      path: item.path,
+      picture: item.photograph.content.firstImage,
+    })),
+    photographers: albumData.catalogue.photographers.content.items.map((item) => ({
+      name: item.name.content.text,
+      path: item.path,
+      picture: item.photograph.content?.firstImage,
+    }))
   }
 
   return {
