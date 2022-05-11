@@ -1,8 +1,11 @@
 <script>
-  import Image from '../../components/image/Image.svelte';
+  import Image from '../../components/Image.svelte';
+  import SmallImage from '../../components/SmallImage.svelte';
 
   export let profile;
   export let pictures;
+
+  console.log(pictures);
 </script>
 
 <main>
@@ -17,10 +20,25 @@
   {/each}
 
   <h3>Some of their work</h3>
-  {#each pictures as picture}
-    <a href="{picture.path}">
-      <h4>{picture.name}</h4>
-      <Image image={picture.image} />
-    </a>
-  {/each}
+  <div class="photographs">
+    {#each pictures as picture}
+      {#if picture}
+        <SmallImage image={picture} />
+      {/if}
+    {/each}
+  </div>
 </main>
+
+<style>
+  .photographs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 600px) {
+    .photographs {
+      flex-direction: column;
+    }
+  }
+</style>

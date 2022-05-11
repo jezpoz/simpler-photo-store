@@ -85,6 +85,23 @@ export async function get({ params }) {
               }
             }
           }
+          image: component(id: "picture") {
+            ... on Component {
+              content {
+                ... on ImageContent {
+                  firstImage {
+                    altText,
+                    variants {
+                      height
+                      width
+                      size
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     `;
@@ -97,6 +114,7 @@ export async function get({ params }) {
     const photographerData = await client.request(photographerQuery, photographerVariables);
     photographers.push({
       name: photographerData.catalogue.name.content.text,
+      image: photographerData.catalogue.image.content.firstImage,
       path: photographerPath,
     });
   }

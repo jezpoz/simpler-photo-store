@@ -67,7 +67,7 @@ export async function get() {
   const photographs = data.catalogue.children.map(child => ({
     name: child?.name?.content?.text,
     path: child?.path,
-    image: child?.image?.content?.firstImage
+    picture: child?.image?.content?.firstImage
   }));
 
   return {

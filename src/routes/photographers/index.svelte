@@ -1,4 +1,6 @@
 <script>
+  import SmallProfile from '../../components/SmallProfile.svelte';
+
   export let title;
   export let summary;
   export let photographers;
@@ -7,16 +9,25 @@
 <main>
   <h1>{title}</h1>
   {@html summary}
-  {#each photographers as photographer}
-    {#if photographer}
-      <a href="{photographer.path}">
-        <div>
-          {#if photographer.image}
-            <img src={photographer.image.variants[0].url} alt={photographer.image.altText} />
-          {/if}
-          <h4>{photographer.name}</h4>
-        </div>
-      </a>
-    {/if}
-  {/each}
+  
+  <div class="photographers">
+    {#each photographers as photographer}
+      {#if photographer}
+        <SmallProfile profile={photographer} />
+      {/if}
+    {/each}
+  </div>
 </main>
+
+<style>
+  .photographers {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media (max-width: 600px) {
+    .photographers {
+      flex-direction: column;
+    }
+  }
+</style>

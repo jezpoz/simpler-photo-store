@@ -120,7 +120,7 @@ export async function get({ params }) {
       pictures.push({
         path: node.path,
         name: node.name.content.text,
-        image: node.image.content.firstImage
+        picture: node.image.content.firstImage
       })
     }
   }

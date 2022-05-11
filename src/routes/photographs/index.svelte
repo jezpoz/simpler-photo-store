@@ -1,4 +1,6 @@
 <script>
+  import SmallImage from '../../components/SmallImage.svelte';
+
   export let title;
   export let summary;
   export let photographs;
@@ -7,16 +9,25 @@
 <main>
   <h1>{title}</h1>
   {@html summary}
-  {#each photographs as photograph}
-    {#if photograph}
-      <a href="{photograph.path}">
-        <div>
-          {#if photograph.image}
-            <img src={photograph.image.variants[0].url} alt={photograph.image.altText} />
-          {/if}
-          <h4>{photograph.name}</h4>
-        </div>
-      </a>
-    {/if}
-  {/each}
+  <div class="photos">
+    {#each photographs as photograph}
+      {#if photograph}
+        <SmallImage image={photograph} />
+      {/if}
+    {/each}
+  </div>
 </main>
+
+<style>
+  .photos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 600px) {
+    .photos {
+      flex-direction: column;
+    }
+  }
+</style>

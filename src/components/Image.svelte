@@ -1,7 +1,8 @@
 <script>
   export let image;
   export let sizes;
-  export let className;
+  export let styles;
+
   function getVariantSrc(variant) {
     return `${variant.url} ${variant.width}w`;
   }
@@ -37,7 +38,7 @@
   }
 </script>
 {#if image}
-  <figure class="{className && className}">
+  <figure>
     <picture>
       {#if useWebP}
         <source srcset="{srcSetWebp}" type="image/webp" sizes={sizes}/>
@@ -52,7 +53,7 @@
         sizes={sizes}
       />
       {/if}
-      <img src={image.url} sizes={sizes} alt={image.altText} />
+      <img src={image.url} sizes={sizes} alt={image.altText} style={styles}/>
     </picture>
   </figure>
 {/if}

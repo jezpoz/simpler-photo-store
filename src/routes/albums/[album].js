@@ -78,7 +78,7 @@ export async function get({ params }) {
                       }
                     }
                   }
-                  photograph: component(id: "picture") {
+                  image: component(id: "picture") {
                     ... on Component {
                       content {
                         ... on ImageContent {
@@ -132,7 +132,7 @@ export async function get({ params }) {
     photographers: albumData.catalogue.photographers.content.items.map((item) => ({
       name: item.name.content.text,
       path: item.path,
-      picture: item.photograph.content?.firstImage,
+      image: item.image.content?.firstImage,
     }))
   }
 
