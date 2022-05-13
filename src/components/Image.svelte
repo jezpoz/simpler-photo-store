@@ -3,6 +3,8 @@
   export let sizes;
   export let styles;
 
+  // Basicly a copy paste of source code from https://github.com/CrystallizeAPI/react-image  
+
   function getVariantSrc(variant) {
     return `${variant.url} ${variant.width}w`;
   }

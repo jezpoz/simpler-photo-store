@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 import { client } from '../utils/graphql-client';
 
-export async function get() {
+export async function get({ params }) {
   const data = await client.request(gql`
     query ($language: String!, $path: String!) {
       catalogue(language: $language, path: $path) {
@@ -61,9 +61,18 @@ export async function get() {
         }
       }
     }
-  `, { path: '/web/index', language: 'en' });
+  `, { path: `/web/${params.page}`, language: 'en' });
+
+  if (!data.catalogue) {
+    return {
+      status: 404,
+    }
+  }
 
   const page = data.catalogue;
+
+  // Todo: render grids
+
 
   return {
     status: 200,
