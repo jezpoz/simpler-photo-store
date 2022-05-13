@@ -60,10 +60,6 @@
     text-decoration: underline;
   }
 
-  .sub-topic:hover {
-
-  }
-
   .sub-topic-name {
     padding: 0;
   }
