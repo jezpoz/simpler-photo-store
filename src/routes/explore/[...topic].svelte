@@ -1,14 +1,18 @@
 <script>
   export let topic;
+
 </script>
 
 <main>
+  <div>
+    {#if topic.parentTopic}
+      <a href="/explore{topic.parentTopic.path}">{topic.parentTopic.name}</a> /
+    {:else}
+      <a href="/explore">Explore</a> /
+    {/if}
+  </div>
   <h1>{topic.name}</h1>
-  {#if topic.parentTopic}
-    back to <a href="/explore{topic.parentTopic.path}">{topic.parentTopic.name}</a>
-  {:else}
-    back to <a href="/explore">Explore</a>
-  {/if}
+  
   <div>
     {#each topic.subTopics as subTopic}
       <div>
@@ -17,12 +21,44 @@
         </a>
       </div>
     {/each}
-    {#each topic.children as child}
+
+    {#if topic.children.photographs.length}
       <div>
-        <a href="{child.path}">
-          <h5>{child.name}</h5>
-        </a>
+        <h4>Photographs</h4>
+        {#each topic.children.photographs as child}
+          <div>
+            <a href="{child.path}">
+              <h5>{child.name}</h5>
+            </a>
+          </div>
+        {/each}
       </div>
-    {/each}
+    {/if}
+
+    {#if topic.children.albums.length}
+      <div>
+        <h4>Albums</h4>
+        {#each topic.children.albums as child}
+          <div>
+            <a href="{child.path}">
+              <h5>{child.name}</h5>
+            </a>
+          </div>
+        {/each}
+      </div>
+    {/if}
+
+    {#if topic.children.photographers.length}
+      <div>
+        <h4>Photographers</h4>
+        {#each topic.children.photographers as child}
+          <div>
+            <a href="{child.path}">
+              <h5>{child.name}</h5>
+            </a>
+          </div>
+        {/each}
+      </div>
+    {/if}
   </div>
 </main>

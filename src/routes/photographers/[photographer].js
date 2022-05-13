@@ -117,11 +117,13 @@ export async function get({ params }) {
   if (picturesData.topic) {
     for(const edge of picturesData.topic.items.edges) {
       const node = edge.node;
-      pictures.push({
-        path: node.path,
-        name: node.name.content.text,
-        picture: node.image.content.firstImage
-      })
+      if (node.path) {
+        pictures.push({
+          path: node.path,
+          name: node.name.content.text,
+          picture: node.image.content.firstImage
+        })
+      }
     }
   }
   

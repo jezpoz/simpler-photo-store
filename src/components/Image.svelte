@@ -61,6 +61,12 @@
   figure {
     margin: 0;
   }
+
+  figure picture {
+    display: flex;
+    margin: 0;
+  }
+
   figure img {
     width: 100%;
   }

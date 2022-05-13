@@ -34,17 +34,27 @@ export async function get() {
               }
             }
           }
-          image: component(id: "picture") {
+          image: component(id: "photographs") {
             ... on Component {
               content {
-                ... on ImageContent {
-                  firstImage {
-                    altText
-                    variants {
-                      height
-                      width
-                      size
-                      url
+                ... on ItemRelationsContent {
+                  items {
+                    component(id: "picture") {
+                      ... on Component {
+                        content {
+                          ... on ImageContent {
+                            firstImage {
+                              altText
+                              variants {
+                                height
+                                width
+                                size
+                                url
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -64,11 +74,18 @@ export async function get() {
 
   const data = await client.request(query, variables);
 
+  console.log(data.catalogue.children);
+
   const albums = data.catalogue.children.map(child => ({
     name: child?.name?.content?.text,
     path: child?.path,
-    image: child?.image?.content?.firstImage
+    images: child?.image?.content?.items?.map(item => ({
+      altText: item?.component?.content?.firstImage?.altText,
+      variants: item?.component?.content?.firstImage?.variants,
+    }))
   }));
+
+  console.log(albums);
 
   return {
     status: 200,

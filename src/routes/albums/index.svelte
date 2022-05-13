@@ -1,4 +1,6 @@
 <script>
+  import SmallAlbum from "../../components/SmallAlbum.svelte";
+
   export let title;
   export let summary;
   export let albums;
@@ -7,16 +9,25 @@
 <main>
   <h1>{title}</h1>
   {@html summary}
-  {#each albums as album}
-    {#if album}
-      <a href="{album.path}">
-        <div>
-          {#if album.image}
-            <img src={album.image.variants[0].url} alt={album.image.altText} />
-          {/if}
-          <h4>{album.name}</h4>
-        </div>
-      </a>
-    {/if}
-  {/each}
+
+  <div class="albums">
+    {#each albums as album}
+      {#if album}
+        <SmallAlbum album={album} />
+      {/if}
+    {/each}
+  </div>
 </main>
+
+<style>
+  .albums {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media (max-width: 600px) {
+    .albums {
+      flex-direction: column;
+    }
+  }
+</style>
