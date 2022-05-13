@@ -1,4 +1,6 @@
 <script>
+import { get_spread_object } from 'svelte/internal';
+
   import Image from '../components/Image.svelte';
 
   export let page;
@@ -7,6 +9,14 @@
 <main>
   <h1>{page.title.content.text}</h1>
   {@html page.summary.content.html.join('')}
+
+  {#if page.grids}
+    {#each page.grids.content.grids as grid}
+      <div class="grid">
+        grid with id: {grid.id}
+      </div>
+    {/each}
+  {/if}
 
   {#each page.body.content.paragraphs as paragraph}
     {#if paragraph.title}
