@@ -20,10 +20,62 @@ export async function get({ params }) {
               shape {
                 identifier
               }
-              name
+              name: component(id: "name") {
+                ... on Component {
+                  content {
+                    ... on SingleLineContent {
+                      text
+                    }
+                  }
+                }
+              }
               type
               path
-              __typename
+              image: component(id: "picture") {
+                ... on Component {
+                  content {
+                    ... on ImageContent {
+                      firstImage {
+                        altText
+                        variants {
+                          height
+                          width
+                          size
+                          url
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              images: component(id: "photographs") {
+                ... on Component {
+                  content  {
+                    ... on ItemRelationsContent {
+                      items {
+                        path
+                        component(id: "picture") {
+                          ... on Component {
+                            content {
+                              ... on ImageContent {
+                                firstImage {
+                                  altText
+                                  variants {
+                                    height
+                                    width
+                                    size
+                                    url
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -46,36 +98,42 @@ export async function get({ params }) {
     if (item.node.shape.identifier.includes('album')) {
       if (item.node.path) {
         albums.push({
-          name: item.node?.name,
-          path: item.node?.path
+          name: item.node?.name?.content?.text,
+          path: item.node?.path,
+          images: item.node?.images?.content?.items?.map(item => ({
+            altText: item?.component?.content?.firstImage?.altText,
+            variants: item?.component?.content?.firstImage?.variants
+          }))
         });
       }
     }
     if (item.node.shape.identifier.includes('photography')) {
       if (item.node.path) {
         photographs.push({
-          name: item.node?.name,
-          path: item.node?.path
+          name: item.node?.name?.content?.text,
+          path: item.node?.path,
+          picture: item.node?.image?.content?.firstImage
         });
       }
     }
     if (item.node.shape.identifier.includes('photographer')) {
       if (item.node.path) {
         photographers.push({
-          name: item.node?.name,
-          path: item.node?.path
+          name: item.node?.name.content?.text,
+          path: item.node?.path,
+          image: item.node?.image?.content?.firstImage
         });
       }
     }
   }
 
   const topic = {
-    name: topicData.topic.name,
-    parentTopic: topicData.topic.parent ? {
-      name: topicData.topic.parent.name,
-      path: topicData.topic.parent.path
+    name: topicData.topic?.name,
+    parentTopic: topicData.topic?.parent ? {
+      name: topicData.topic?.parent.name,
+      path: topicData.topic?.parent.path
     } : null,
-    subTopics: topicData.topic.children?.map(subTopic => ({
+    subTopics: topicData.topic?.children?.map(subTopic => ({
       name: subTopic.name,
       path: subTopic.path,
     })) || [],

@@ -74,8 +74,6 @@ export async function get() {
 
   const data = await client.request(query, variables);
 
-  console.log(data.catalogue.children);
-
   const albums = data.catalogue.children.map(child => ({
     name: child?.name?.content?.text,
     path: child?.path,
@@ -84,8 +82,6 @@ export async function get() {
       variants: item?.component?.content?.firstImage?.variants,
     }))
   }));
-
-  console.log(albums);
 
   return {
     status: 200,

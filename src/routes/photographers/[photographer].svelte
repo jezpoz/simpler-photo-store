@@ -4,8 +4,6 @@
 
   export let profile;
   export let pictures;
-
-  console.log(pictures);
 </script>
 
 <main>
